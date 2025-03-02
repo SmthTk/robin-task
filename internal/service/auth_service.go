@@ -17,7 +17,7 @@ func NewAuthService(userRepo repository.UserRepository, jwtService *auth.JWTServ
 	return &AuthService{userRepo: userRepo, jwtService: jwtService}
 }
 
-func (s *AuthService) Register(username, password, role string) (string, error) {
+func (s *AuthService) Register(username, password, role, avatar string) (string, error) {
 	hashedPassword, err := bcrypt.GenerateFromPassword([]byte(password), bcrypt.DefaultCost)
 	if err != nil {
 		return "", err
@@ -27,6 +27,7 @@ func (s *AuthService) Register(username, password, role string) (string, error) 
 		Username: username,
 		Password: string(hashedPassword),
 		Role:     role,
+		Avatar:   avatar,
 	}
 
 	if err := s.userRepo.CreateUser(user); err != nil {
@@ -36,15 +37,29 @@ func (s *AuthService) Register(username, password, role string) (string, error) 
 	return s.jwtService.GenerateToken(user.ID, user.Role)
 }
 
-func (s *AuthService) Login(username, password string) (string, error) {
+func (s *AuthService) Login(username, password string) (*model.User, string, error) {
 	user, err := s.userRepo.GetUserByUsername(username)
 	if err != nil {
-		return "", errors.New("user not found")
+		return nil, "", errors.New("user not found")
 	}
 
 	if err := bcrypt.CompareHashAndPassword([]byte(user.Password), []byte(password)); err != nil {
-		return "", errors.New("incorrect password")
+		return nil, "", errors.New("incorrect password")
 	}
 
-	return s.jwtService.GenerateToken(user.ID, user.Role)
+	token, err := s.jwtService.GenerateToken(user.ID, user.Role)
+	if err != nil {
+		return nil, "", err
+	}
+
+	return user, token, nil
+}
+
+func (s *AuthService) GetUserByUsername(username string) (*model.User, error) {
+	user, err := s.userRepo.GetUserByUsername(username)
+	if err != nil {
+		return nil, err
+	}
+
+	return user, nil
 }

@@ -1,12 +1,41 @@
-# Use official Golang image as the base image
-FROM golang:1.23-alpine as builder
+# Use the official Golang image as the base image
+FROM golang:1.23-alpine AS builder
 
-RUN apk add --no-cache nginx git curl && apk add busybox-extras
-RUN apk upgrade && apk upgrade
-RUN apk add --no-cache nginx
-RUN apk add --no-cache git
-RUN apk add --no-cache curl
-RUN apk add --no-cache busybox-extras
+# Install dependencies
+RUN apk add --no-cache git curl
 
-RUN curl -sSfL https://raw.githubusercontent.com/cosmtrek/air/master/install.sh | sh -s -- -b $(go env GOPATH)/bin
+# Set the working directory inside the container
+WORKDIR /app
+
+# Copy go.mod and go.sum files first (for better caching)
+COPY go.mod go.sum ./
+
+# Download the Go modules
+RUN go mod download
+
+# Copy the entire source code
+COPY . .
+
+# Set working directory to /cmd before building
+WORKDIR /app/cmd
+
+# Build the Go application
+RUN go build -o /app/main .
+
+# Use a minimal image for production
+FROM alpine:latest
+
+# Set working directory
+WORKDIR /root/
+
+# Copy the compiled binary from the builder stage
+COPY --from=builder /app/main .
+
+# Copy the config.yaml file to the expected location
+COPY config/config.yaml /root/config/config.yaml
+
+# Expose the application port
 EXPOSE 5000
+
+# Command to run the application
+CMD ["./main"]

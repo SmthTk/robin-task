@@ -1,6 +1,7 @@
 package utils
 
 import (
+	"encoding/json"
 	"github.com/gin-gonic/gin"
 	"strconv"
 )
@@ -21,4 +22,19 @@ func ResponseData(status bool, message string, data interface{}) gin.H {
 		"message": message,
 		"data":    data,
 	}
+}
+
+func CastType[T any](s interface{}, types *T) error {
+
+	encode, err := json.Marshal(s)
+	if err != nil {
+		return err
+	}
+
+	err = json.Unmarshal(encode, &types)
+	if err != nil {
+		return err
+	}
+
+	return nil
 }
