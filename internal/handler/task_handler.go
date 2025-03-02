@@ -23,7 +23,7 @@ func NewTaskHandler(s *service.TaskService, clSrv *service.ChangeLogService) *Ta
 }
 
 func (h *TaskHandler) GetAllTasks(c *gin.Context) {
-	tasks, err := h.service.GetAllTasks()
+	tasks, err := h.service.GetAllTaskByRole(utils.GetUserRoleFromContext(c))
 	if err != nil {
 		c.JSON(http.StatusInternalServerError, utils.ResponseData(false, err.Error(), nil))
 		return
@@ -33,7 +33,7 @@ func (h *TaskHandler) GetAllTasks(c *gin.Context) {
 }
 
 func (h *TaskHandler) GetTaskByID(c *gin.Context) {
-	task, err := h.service.GetTaskByID(utils.ParseStringToUint(c.Param("id"))) // Pass as uint
+	task, err := h.service.GetTaskByIDAndRole(utils.ParseStringToUint(c.Param("id")), utils.GetUserRoleFromContext(c))
 	if err != nil {
 		c.JSON(http.StatusInternalServerError, utils.ResponseData(false, err.Error(), nil))
 		return
@@ -105,7 +105,7 @@ func (h *TaskHandler) UpdateTask(c *gin.Context) {
 	}
 
 	//find task
-	task, err := h.service.GetTaskByID(utils.ParseStringToUint(c.Param("id")))
+	task, err := h.service.GetTaskByIDAndRole(utils.ParseStringToUint(c.Param("id")), utils.GetUserRoleFromContext(c))
 	if err != nil {
 		c.JSON(http.StatusNotFound, utils.ResponseData(false, err.Error(), nil))
 		return
@@ -156,7 +156,7 @@ func (h *TaskHandler) DeleteTask(c *gin.Context) {
 	}
 
 	//find task
-	task, err := h.service.GetTaskByID(utils.ParseStringToUint(c.Param("id")))
+	task, err := h.service.GetTaskByIDAndRole(utils.ParseStringToUint(c.Param("id")), utils.GetUserRoleFromContext(c))
 	if err != nil {
 		c.JSON(http.StatusNotFound, utils.ResponseData(false, err.Error(), nil))
 		return

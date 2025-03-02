@@ -17,8 +17,33 @@ func (s *TaskService) GetAllTasks() ([]model.Task, error) {
 	return s.taskRepo.GetAllTasks()
 }
 
+func (s *TaskService) GetAllTaskByRole(userRole string) ([]model.Task, error) {
+	if userRole == model.ROLE_ADMIN {
+		return s.taskRepo.GetAllTasks()
+	}
+
+	return s.taskRepo.GetTasksWithConditions(
+		map[string]interface{}{
+			"archived": false,
+		},
+	)
+}
+
 func (s *TaskService) GetTaskByID(id uint) (*model.Task, error) {
 	return s.taskRepo.GetTaskByID(id)
+}
+
+func (s *TaskService) GetTaskByIDAndRole(id uint, userRole string) (*model.Task, error) {
+	if userRole == model.ROLE_ADMIN {
+		return s.taskRepo.GetTaskByID(id)
+	}
+
+	return s.taskRepo.GetTaskByIDAndCondition(
+		id,
+		map[string]interface{}{
+			"archived": false,
+		},
+	)
 }
 
 func (s *TaskService) CreateTask(task *model.Task) error {

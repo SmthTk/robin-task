@@ -7,7 +7,9 @@ import (
 
 type TaskRepository interface {
 	GetAllTasks() ([]model.Task, error)
+	GetTasksWithConditions(conditions map[string]interface{}) ([]model.Task, error)
 	GetTaskByID(id uint) (*model.Task, error)
+	GetTaskByIDAndCondition(id uint, conditions map[string]interface{}) (*model.Task, error)
 	CreateTask(task *model.Task) error
 	UpdateTask(task *model.Task) error
 	DeleteTask(id uint) error
@@ -36,6 +38,18 @@ func (r *taskRepository) GetAllTasks() ([]model.Task, error) {
 	return tasks, err
 }
 
+func (r *taskRepository) GetTasksWithConditions(conditions map[string]interface{}) ([]model.Task, error) {
+	var tasks []model.Task
+	query := r.db
+
+	if conditions != nil && len(conditions) > 0 {
+		query = query.Where(conditions)
+	}
+
+	err := query.Preload("User", PreloadUser).Find(&tasks).Error
+	return tasks, err
+}
+
 func (r *taskRepository) GetTaskByID(id uint) (*model.Task, error) {
 	var task model.Task
 
@@ -44,6 +58,24 @@ func (r *taskRepository) GetTaskByID(id uint) (*model.Task, error) {
 		Preload("Comments", PreloadComment).
 		Preload("Comments.User", PreloadUser).
 		First(&task, id).Error; err != nil {
+		return nil, err
+	}
+
+	return &task, nil
+}
+
+func (r *taskRepository) GetTaskByIDAndCondition(id uint, conditions map[string]interface{}) (*model.Task, error) {
+	var task model.Task
+
+	query := r.db.Preload("User", PreloadUser).
+		Preload("Comments", PreloadComment).
+		Preload("Comments.User", PreloadUser)
+
+	if conditions != nil && len(conditions) > 0 {
+		query = query.Where(conditions)
+	}
+
+	if err := query.First(&task, "id = ?", id).Error; err != nil {
 		return nil, err
 	}
 

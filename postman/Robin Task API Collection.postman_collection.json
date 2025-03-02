@@ -51,7 +51,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"username\": \"user2\",\n    \"password\": \"password\"\n}"
+							"raw": "{\n    \"username\": \"admin\",\n    \"password\": \"password\"\n}"
 						},
 						"url": {
 							"raw": "http://localhost:5000/api/auth/login",
@@ -82,7 +82,7 @@
 							"bearer": [
 								{
 									"key": "token",
-									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3NDEwMTAyMzIsInJvbGUiOiJ1c2VyIiwidXNlcklEIjoyfQ.IQSv2dseB6G-sXVBqV4rAdPerttmP6dBSn6bMJZBcmw",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3NDEwMTQzNDUsInJvbGUiOiJhZG1pbiIsInVzZXJJRCI6NX0.OKaJGhR1QIFnRkU0CCZs1VvVKfYUFbyDvPw82uXiY_Y",
 									"type": "string"
 								}
 							]
@@ -112,7 +112,7 @@
 							"bearer": [
 								{
 									"key": "token",
-									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3NDEwMDUxNDEsInJvbGUiOiJ1c2VyIiwidXNlcklEIjoyfQ.c9nu5FaOefVlATjw_e24d-CmGFcF2iVOJGT7lnbp5Ks",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3NDEwMTQzNDUsInJvbGUiOiJhZG1pbiIsInVzZXJJRCI6NX0.OKaJGhR1QIFnRkU0CCZs1VvVKfYUFbyDvPw82uXiY_Y",
 									"type": "string"
 								}
 							]
@@ -120,7 +120,7 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:5000/api/tasks/2",
+							"raw": "http://localhost:5000/api/tasks/5",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -129,7 +129,7 @@
 							"path": [
 								"api",
 								"tasks",
-								"2"
+								"5"
 							]
 						}
 					},
@@ -182,7 +182,7 @@
 							"bearer": [
 								{
 									"key": "token",
-									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3NDEwMDUxNDEsInJvbGUiOiJ1c2VyIiwidXNlcklEIjoyfQ.c9nu5FaOefVlATjw_e24d-CmGFcF2iVOJGT7lnbp5Ks",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3NDEwMTQzNDUsInJvbGUiOiJhZG1pbiIsInVzZXJJRCI6NX0.OKaJGhR1QIFnRkU0CCZs1VvVKfYUFbyDvPw82uXiY_Y",
 									"type": "string"
 								}
 							]
@@ -203,7 +203,7 @@
 							"raw": "{\n    \"name\": \"New ssss 1\",\n    \"description\": \"Description of thsssss 1\",\n    \"status\": \"done\" //todo, in_progress, done\n}"
 						},
 						"url": {
-							"raw": "http://localhost:5000/api/tasks/2",
+							"raw": "http://localhost:5000/api/tasks/5",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -212,7 +212,7 @@
 							"path": [
 								"api",
 								"tasks",
-								"2"
+								"5"
 							]
 						}
 					},
@@ -226,7 +226,7 @@
 							"bearer": [
 								{
 									"key": "token",
-									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3NDEwMDUxNDEsInJvbGUiOiJ1c2VyIiwidXNlcklEIjoyfQ.c9nu5FaOefVlATjw_e24d-CmGFcF2iVOJGT7lnbp5Ks",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3NDEwMTQzNDUsInJvbGUiOiJhZG1pbiIsInVzZXJJRCI6NX0.OKaJGhR1QIFnRkU0CCZs1VvVKfYUFbyDvPw82uXiY_Y",
 									"type": "string"
 								}
 							]
@@ -234,7 +234,7 @@
 						"method": "DELETE",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:5000/api/tasks/4",
+							"raw": "http://localhost:5000/api/tasks/5",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -243,7 +243,7 @@
 							"path": [
 								"api",
 								"tasks",
-								"4"
+								"5"
 							]
 						}
 					},
@@ -252,15 +252,20 @@
 				{
 					"name": "Archive Task",
 					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3NDEwMTMxOTgsInJvbGUiOiJ1c2VyIiwidXNlcklEIjoyfQ.H8h9BFsfe9-UNEtJWUCcg7SIFrb-WdLMnoWKWsd-Qas",
+									"type": "string"
+								}
+							]
+						},
 						"method": "PATCH",
-						"header": [
-							{
-								"key": "Authorization",
-								"value": "Bearer <your_token>"
-							}
-						],
+						"header": [],
 						"url": {
-							"raw": "http://localhost:5000/api/tasks/1/archive",
+							"raw": "http://localhost:5000/api/tasks/5/archive",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -269,7 +274,7 @@
 							"path": [
 								"api",
 								"tasks",
-								"1",
+								"5",
 								"archive"
 							]
 						}

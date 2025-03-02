@@ -16,6 +16,15 @@ func GetUserIDFromContext(c *gin.Context) uint {
 	return userIDIntf.(uint)
 }
 
+func GetUserRoleFromContext(c *gin.Context) string {
+	role, exists := c.Get("role")
+	if !exists {
+		return "user"
+	}
+
+	return role.(string)
+}
+
 func ResponseData(status bool, message string, data interface{}) gin.H {
 	return gin.H{
 		"status":  status,

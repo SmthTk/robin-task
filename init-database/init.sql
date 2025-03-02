@@ -23,7 +23,8 @@ CREATE TABLE IF NOT EXISTS users (
     avatar LONGTEXT,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-    KEY  `username_idx1` (`username`) USING BTREE
+    KEY  `username_idx1` (`username`) USING BTREE,
+    KEY  `role_idx1` (`role`) USING BTREE
 );
 
 -- Create the Task table

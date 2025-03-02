@@ -39,7 +39,7 @@ func SetupRouter(router *gin.Engine, authService *service.AuthService, taskServi
 			tasks.POST("", taskHandler.CreateTask)
 			tasks.PUT("/:id", taskHandler.UpdateTask)
 			tasks.DELETE("/:id", taskHandler.DeleteTask)
-			tasks.PATCH("/:id/archive", taskHandler.ArchiveTask) // Archive task
+			tasks.PATCH("/:id/archive", taskHandler.ArchiveTask)
 
 			// Task comments
 			commentHandler := handler.NewCommentHandler(commentService)
@@ -53,7 +53,7 @@ func SetupRouter(router *gin.Engine, authService *service.AuthService, taskServi
 		changelogHandler := handler.NewChangeLogHandler(changelogService)
 		changeLogs := protected.Group("/tasks/:id/changelog")
 		{
-			changeLogs.GET("", changelogHandler.GetChangeLogsByTaskID) // Get change logs for task
+			changeLogs.GET("", changelogHandler.GetChangeLogsByTaskID)
 		}
 	}
 }
