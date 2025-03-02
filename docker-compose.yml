@@ -1,0 +1,36 @@
+version: '3.8'
+
+services:
+  # Application Service (Go API)
+  app:
+    build: .
+    container_name: robin-task-api
+    ports:
+      - "5000:5000"  # Map container's port 5000 to host's port 5000
+    depends_on:
+      - db  # Ensure the app starts after db
+    networks:
+      - robin-task-network
+
+  # MySQL Service
+  db:
+    image: mysql:8
+    container_name: robin-task-db
+    environment:
+      MYSQL_ROOT_PASSWORD: 'root'
+      TZ: "Asia/Bangkok"
+      TIMEZONE: "Asia/Bangkok"
+    ports:
+      - "3306:3306"  # Keep MySQL on the default port
+    volumes:
+      - ./init-database/init.sql:/docker-entrypoint-initdb.d/init.sql  # Initialize MySQL with init.sql
+    networks:
+      - robin-task-network
+
+networks:
+  robin-task-network:
+    driver: bridge
+
+volumes:
+  db_data:
+    driver: local
